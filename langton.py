@@ -2,7 +2,7 @@ import pygame
 import sys
 
 ##########################################
-# --- Configuración de la simulación --- #
+# --- Configuracion de la simulacion --- #
 ###########################################
 
 GRID_WIDTH = 200
@@ -66,7 +66,7 @@ class Ant:
         self.direction = (self.direction - 1 + 4) % 4
 
     def move(self):
-        """Mueve la hormiga un paso en su dirección actual."""
+        """Mueve la hormiga un paso en su direccion actual."""
         if self.direction == 0:  # Arriba
             self.y -= 1
         elif self.direction == 1:  # Derecha
@@ -76,20 +76,20 @@ class Ant:
         elif self.direction == 3:  # Izquierda
             self.x -= 1
         
-        # Envuelve la posición si sale de los límites de la cuadrícula
+        # retorna a pantalla cuando sale de los limites
         self.x = self.x % GRID_WIDTH
         self.y = self.y % GRID_HEIGHT
-        # Asegura que las coordenadas sean no negativas
+        # verifica coordenadas positivas
         if self.x < 0: self.x += GRID_WIDTH
         if self.y < 0: self.y += GRID_HEIGHT
 
 
 def draw_grid(grid):
-    """Dibuja toda la cuadrícula en la pantalla."""
+    """Dibuja toda la cuadricula en la pantalla"""
     screen.fill(WHITE)
     for y in range(GRID_HEIGHT):
         for x in range(GRID_WIDTH):
-            if grid[x][y] == 1:  # Si la celda está 'negra'
+            if grid[x][y] == 1:  # Si la celda esta 'negra'
                 rect = pygame.Rect(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE)
                 pygame.draw.rect(screen, BLACK, rect)
 
@@ -195,10 +195,10 @@ while running:
         for ant in ants:
             current_cell_color = grid[ant.x][ant.y]
             if current_cell_color == 1:
-                ant.turn_right()
+                ant.turn_left()
                 grid[ant.x][ant.y] = 0
             else:
-                ant.turn_left()
+                ant.turn_right()
                 grid[ant.x][ant.y] = 1
             ant.move()
 
