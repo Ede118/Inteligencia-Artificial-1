@@ -108,13 +108,13 @@ def draw_button(rect, label, mouse_pos):
     screen.blit(text_surf, text_rect)
 
 
-def draw_ui(mouse_pos, sim_running, ants_count):
+def draw_ui(mouse_pos, sim_running):
     """Dibuja la barra y los botones."""
     ui_rect = pygame.Rect(0, GRID_HEIGHT * CELL_SIZE, SCREEN_WIDTH, UI_BAR_HEIGHT)
     pygame.draw.rect(screen, UI_BG, ui_rect)
 
     # Info al costado
-    info = f"Estado: {'RUN' if sim_running else 'PAUSE'}  |  Hormigas: {ants_count}"
+    info = f"Estado: {'RUN' if sim_running else 'PAUSE'}"
     info_surf = font.render(info, True, BTN_TEXT)
     screen.blit(info_surf, (SCREEN_WIDTH - info_surf.get_width() - PADDING,
                             GRID_HEIGHT * CELL_SIZE + (UI_BAR_HEIGHT - info_surf.get_height()) // 2))
@@ -169,11 +169,8 @@ while running:
                     mouse_x, mouse_y = event.pos
                     grid_x = mouse_x // CELL_SIZE
                     grid_y = mouse_y // CELL_SIZE
-<<<<<<< HEAD
                     grid[grid_y][grid_x] = 1 - grid[grid_y][grid_x]
-=======
-                    grid[grid_y][grid_x] = 1
->>>>>>> cf51d24527cd783a1b405c2eba966c670d3d71eb
+        
         # Atajos de teclado
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
@@ -182,8 +179,11 @@ while running:
                 sim_running = False
                 reset_simulation()
 
-    grid = actualizar_grilla(grid)
+    if sim_running:
+        grid = actualizar_grilla(grid)
+    mouse_pos = pygame.mouse.get_pos()
     draw_grid(grid)
+    draw_ui(mouse_pos, sim_running)
     pygame.display.flip()
     clock.tick(FPS)
 
