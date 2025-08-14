@@ -406,6 +406,21 @@
     
     
 
+\usepackage{fancyhdr} % Para encabezado/pie
+\usepackage{lastpage} % Para número total de páginas
+\pagestyle{fancy}
+
+% Encabezado
+\fancyhead[L]{\textbf{Inteligencia Aritificial - Trabajo Práctico 1}}
+\fancyhead[C]{}
+\fancyhead[R]{Avila Julieta, Barrios Retta Federico, Patriccelli Nicolas}
+
+% Pie de página
+\fancyfoot[L]{}
+\fancyfoot[C]{}
+\fancyfoot[R]{Página \thepage\ de \pageref{LastPage}}
+
+
 \begin{document}
     
     \maketitle
@@ -907,8 +922,8 @@ Si\ldots{}}\label{la-hormiga-de-langton-es-un-agente-capaz-de-modificar-el-estad
   iteración?
 \end{itemize}
 
-    Análisis REAS \textbar{} Agente \textbar{} Rendimiento \textbar{}
-Entorno \textbar{} Actuadores \textbar{} Sensores \textbar{}
+    \textbf{Análisis REAS} \textbar{} Agente \textbar{} Rendimiento
+\textbar{} Entorno \textbar{} Actuadores \textbar{} Sensores \textbar{}
 \textbar--------\textbar-------------\textbar---------\textbar------------\textbar----------\textbar{}
 \textbar{} Hormiga de Langton \textbar{} Movimiento de la hormiga de
 acuerdo a las reglas y cambio de color cuando la hormiga pasa por cada
@@ -919,11 +934,35 @@ determinada. \textbar{} Sensor de color mediante la funcion
 current\_self\_color y de posicionamiento del mouse en el clic mediante
 mouse\_x y mouse\_y. \textbar{}
 
+\textbf{Propiedades del Entorno} \textbar{} Propiedad \textbar{} Valor
+\textbar{}
+\textbar--------------------------------\textbar-------------------------------------------------------------------------------------------------\textbar{}
+\textbar{} \textbf{Observabilidad} \textbar{} Total. Se puede saber en
+todo momento la posición de todas las hormigas. \textbar{} \textbar{}
+\textbf{Determinista / Estocástico} \textbar{} Estocástico. La hormiga
+siempre sigue las reglas para moverse, por lo que frente a una
+configuración dada siempre se va a mover igual. \textbar{} \textbar{}
+\textbf{Episódico / Secuencial} \textbar{} Episódico. La hormiga se
+mueve según el color de la casilla donde se encuentra en cada iteración.
+\textbar{} \textbar{} \textbf{Estático / Dinámico} \textbar{} Estático.
+La configuración de las hormigas se mantiene en cada iteración y cambia
+en la siguiente. No hay cambios que influyan en la decisión de la
+hormiga durante la iteración. \textbar{} \textbar{} \textbf{Discreto /
+Continuo} \textbar{} Discreto. La hormiga tiene un número finito de
+posiciones para moverse. \textbar{} \textbar{} \textbf{Agente}
+\textbar{} Multiagente. Cuando hay más de una hormiga interfieren en sus
+caminos. \textbar{}
+
 Una vez programado en Python, se observó que la hormiga presenta un
 movimiento que se repite, realizando un movimiento similar a un espiral,
 que busca ``escapar'' de la pantalla. Este se vio despues de las 100 mil
 iteraciones. A esto se lo llama comportamiento emergente.
-\pandocbounded{\includegraphics[keepaspectratio,alt={image.png}]{TP1_files/image.png}}
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio,alt={captura\_hormiga\_de\_langton.png}]{TP1_files/captura_hormiga_de_langton.png}}
+\caption{captura\_hormiga\_de\_langton.png}
+\end{figure}
 
     \subsubsection{\texorpdfstring{9. El Juego de la Vida de Conway consiste
 en un tablero donde cada casilla representa una célula, de manera que a
@@ -949,8 +988,8 @@ acciones:}{9. El Juego de la Vida de Conway consiste en un tablero donde cada ca
   para después programarlo en Python:
 \end{itemize}
 
-    Análisis REAS \textbar{} Sistema \textbar{} Rendimiento \textbar{}
-Entorno \textbar{} Actuadores \textbar{} Sensores \textbar{}
+    \textbf{Análisis REAS} \textbar{} Sistema \textbar{} Rendimiento
+\textbar{} Entorno \textbar{} Actuadores \textbar{} Sensores \textbar{}
 \textbar---------\textbar-------------\textbar---------\textbar------------\textbar----------\textbar{}
 \textbar{} Juego de la Vida de Conway \textbar{} Evolución correcta de
 las células siguiendo las reglas de Nacer, Morir, Vivir en cada
@@ -962,12 +1001,27 @@ estado actual del tablero: contabilidad del número de células vivas
 alrededor de cada una, medinte la funcion \emph{contar-vecinos}
 \textbar{}
 
-    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{ }{\boxspacing}
-\begin{Verbatim}[commandchars=\\\{\}]
+\textbf{Propiedades del entorno} \textbar{} Propiedad \textbar{}
+\textbar{} \textbar-----------\textbar--\textbar{} \textbar{}
+Observabilidad \textbar{} Total. Se puede saber en todo momento qué
+células están vivas y cuáles no. \textbar{} \textbar{}
+Determinista/Estocástico \textbar{} Las células siempre cambian su
+estado en base a las reglas. \textbar{} \textbar{} Episódico/Secuencial
+\textbar{} Episódico. La célula modifica su estado en base a la cantidad
+de vecinos en cada iteración. \textbar{} \textbar{} Estatico/Dinamico
+\textbar{} Estatico. La configuración de las células cambia de iteración
+a iteración, pero no hay modificaciones intermedias que influyan en el
+poder de decision de evolucion de la célula. \textbar{} \textbar{}
+Discreto/Continuo \textbar{} Discreto en la práctica. La cantidad de
+células representadas es un número finito. \textbar{} \textbar{} Agente
+\textbar{} Multiagente. La cantidad de células vivas influye en la
+condición de vida de las otras. \textbar{}
 
-\end{Verbatim}
-\end{tcolorbox}
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio,alt={captura\_juego\_de\_la\_vida.png}]{TP1_files/captura_juego_de_la_vida.png}}
+\caption{captura\_juego\_de\_la\_vida.png}
+\end{figure}
 
     \section{Bibliografía}\label{bibliografuxeda}
 
