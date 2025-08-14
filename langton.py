@@ -40,7 +40,7 @@ font = pygame.font.SysFont(None, 22)
 SCREEN_WIDTH = GRID_WIDTH * CELL_SIZE
 SCREEN_HEIGHT = GRID_HEIGHT * CELL_SIZE + UI_BAR_HEIGHT
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("Hormiga de Langton (Múltiples Hormigas)")
+pygame.display.set_caption("Hormiga de Langton")
 clock = pygame.time.Clock()
 
 
