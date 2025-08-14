@@ -38,7 +38,7 @@ pygame.font.init()
 font = pygame.font.SysFont(None, 22)
 
 SCREEN_WIDTH = GRID_WIDTH * CELL_SIZE
-SCREEN_HEIGHT = GRID_HEIGHT * CELL_SIZE
+SCREEN_HEIGHT = GRID_HEIGHT * CELL_SIZE + UI_BAR_HEIGHT
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Hormiga de Langton (Múltiples Hormigas)")
 clock = pygame.time.Clock()
@@ -176,27 +176,33 @@ while running:
                 reset_simulation()
 
             # Si el click es dentro del área del grid, agregar hormiga
-            else: 
-                # Convierte las coordenadas del clic del ratón en coordenadas de la cuadrícula
+            else:
                 mouse_x, mouse_y = event.pos
-                grid_x = mouse_x // CELL_SIZE
-                grid_y = mouse_y // CELL_SIZE
-                # Añade una nueva hormiga en la posición del clic
-                ants.append(Ant(grid_x, grid_y))
+                if mouse_y < GRID_HEIGHT * CELL_SIZE:  # <-- solo dentro del grid
+                    grid_x = mouse_x // CELL_SIZE
+                    grid_y = mouse_y // CELL_SIZE
+                    ants.append(Ant(grid_x, grid_y))
+
+        # Atajos de teclado
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                sim_running = not sim_running
+            elif event.key == pygame.K_r:
+                sim_running = False
+                reset_simulation()
 
     # --- Lógica de la hormiga ---
-    for ant in ants:
-        # Obtiene el color de la celda actual
-        current_cell_color = grid[ant.x][ant.y]
+        if sim_running:
+            for ant in ants:
+                current_cell_color = grid[ant.x][ant.y]
+                if current_cell_color == 1:
+                    ant.turn_right()
+                    grid[ant.x][ant.y] = 0
+                else:
+                    ant.turn_left()
+                    grid[ant.x][ant.y] = 1
+                ant.move()
 
-        if current_cell_color == 1:  # Si la celda es negra
-            ant.turn_right()
-            grid[ant.x][ant.y] = 0  # Cambia a blanco
-        else:  # Si la celda es blanca
-            ant.turn_left()
-            grid[ant.x][ant.y] = 1  # Cambia a negro
-
-        ant.move()
 
     # --- Dibujo ---
     draw_grid(grid)
