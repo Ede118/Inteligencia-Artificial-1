@@ -131,10 +131,9 @@ def draw_ui(mouse_pos, sim_running, ants_count):
 
 
 def reset_simulation():
-    """Limpia la grilla y las hormigas."""
-    for y in range(GRID_HEIGHT):
-        for x in range(GRID_WIDTH):
-            grid[y][x] = 0
+    for x in range(GRID_WIDTH):
+        for y in range(GRID_HEIGHT):
+            grid[x][y] = 0
     ants.clear()
 
 ########################################
