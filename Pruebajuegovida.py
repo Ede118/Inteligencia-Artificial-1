@@ -53,6 +53,7 @@ grid = [[0 for _ in range(GRID_WIDTH)] for _ in range(GRID_HEIGHT)]
 
 #dibujo del tablero
 def draw_grid(grid):
+    """Dibuja toda la cuadricula en la pantalla"""
     screen.fill(WHITE)
     for y in range(GRID_HEIGHT):
         for x in range(GRID_WIDTH):
@@ -133,6 +134,7 @@ def reset_simulation():
 #        Inicialización del Juego     #
 ########################################
 
+grid = [[0 for _ in range(GRID_WIDTH)] for _ in range(GRID_HEIGHT)]
 # Botones y Estado de ejecución
 start_btn, stop_btn, reset_btn = make_button_rects()
 sim_running = False
@@ -167,6 +169,7 @@ while running:
                     mouse_x, mouse_y = event.pos
                     grid_x = mouse_x // CELL_SIZE
                     grid_y = mouse_y // CELL_SIZE
+        
         # Atajos de teclado
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
