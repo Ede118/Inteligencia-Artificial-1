@@ -176,6 +176,9 @@ while running:
                 sim_running = False
                 grid = crear_grilla_aleatoria()
                 generation = 0
+            elif event.key == pygame.K_q: # Atajo para salir
+                running = False
+                
 
     # Lógica para dibujar manteniendo el clic
     mouse_buttons = pygame.mouse.get_pressed()

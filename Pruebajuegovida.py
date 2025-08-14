@@ -8,7 +8,7 @@ import sys
 GRID_WIDTH = 100
 GRID_HEIGHT = 80
 CELL_SIZE = 8
-FPS = 1
+FPS = 60
 
 ########################
 #     Colores y UI     #
