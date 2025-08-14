@@ -8,7 +8,7 @@ import sys
 GRID_WIDTH = 200
 GRID_HEIGHT = 150
 CELL_SIZE = 4
-FPS = 240
+FPS = 120
 
 ########################
 #     Colores y UI     #
@@ -191,17 +191,17 @@ while running:
                 sim_running = False
                 reset_simulation()
 
-    # --- Lógica de la hormiga ---
-        if sim_running:
-            for ant in ants:
-                current_cell_color = grid[ant.x][ant.y]
-                if current_cell_color == 1:
-                    ant.turn_right()
-                    grid[ant.x][ant.y] = 0
-                else:
-                    ant.turn_left()
-                    grid[ant.x][ant.y] = 1
-                ant.move()
+# --- Lógica de la hormiga ---
+    if sim_running:
+        for ant in ants:
+            current_cell_color = grid[ant.x][ant.y]
+            if current_cell_color == 1:
+                ant.turn_right()
+                grid[ant.x][ant.y] = 0
+            else:
+                ant.turn_left()
+                grid[ant.x][ant.y] = 1
+            ant.move()
 
 
     # --- Dibujo ---
