@@ -169,7 +169,7 @@ while running:
                     mouse_x, mouse_y = event.pos
                     grid_x = mouse_x // CELL_SIZE
                     grid_y = mouse_y // CELL_SIZE
-        
+                    grid[grid_y][grid_x] = 1
         # Atajos de teclado
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
