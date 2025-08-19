@@ -82,8 +82,7 @@ class PathfindingGUI:
         self.buttons = {}
         for r in range(self.rows):
             for c in range(self.cols):
-                button = tk.Button(master, text="", width=2, height=1,
-                                   command=lambda row=r, col=c: self.cell_clicked(row, col))
+                button = tk.Button(master, text="", width=2, height=1,command=lambda row=r, col=c: self.cell_clicked(row, col))
                 button.grid(row=r, column=c)
                 self.buttons[(r, c)] = button
                 self.grid[(r, c)] = 0
