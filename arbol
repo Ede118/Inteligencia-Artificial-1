@@ -1,0 +1,35 @@
+digraph {
+	I
+	G
+	P
+	Q
+	R
+	T
+	K
+	C
+	M
+	W
+	A
+	B
+	D
+	F
+	N
+	E
+	J
+	I -> G [label=1]
+	G -> P
+	P -> Q
+	Q -> R
+	R -> T
+	T -> K
+	K -> C [label=1]
+	K -> M [label=1]
+	K -> W [label=30]
+	C -> A
+	A -> B
+	B -> D
+	D -> M
+	M -> F
+	M -> N
+	W -> K [label=30]
+}
