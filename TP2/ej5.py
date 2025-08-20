@@ -1,20 +1,20 @@
 graph = {
     'A': ['B', 'C'],
     'B': ['A', 'D'],
-    'C': ['A'],  # pared hacia D
-    'D': [],     # rodeado de paredes hacia C y E
-    'E': ['D'],  # pared desde D
+    'C': ['A', 'K'],  # pared hacia D
+    'D': ['B','M'],     #  paredes hacia C y E
+    'E': ['N'],  # pared desde D
     'G': ['I', 'P'],
-    'I': ['G', 'Q'],  # W es bloqueado hacia K
-    'W': ['R'],        # pared hacia K
-    'K': ['M'],        # pared desde W
-    'M': ['K', 'N'],
-    'N': ['M'],
+    'I': ['G', 'Q', 'W'],  
+    'W': ['I', 'K'],    # pared hacia R
+    'K': ['C', 'M', 'T', 'W'],     
+    'M': ['D', 'F', 'K', 'N'],
+    'N': ['E','M'],
     'P': ['G', 'Q'],
-    'Q': ['P', 'I', 'R'],
-    'R': ['Q', 'W', 'T'],
-    'T': ['R'],        # pared hacia F
-    'F': []            # objetivo
+    'Q': ['I', 'P', 'R'],
+    'R': ['Q', 'T'],
+    'T': ['K','R'],        # pared hacia F
+    'F': ['N']            # objetivo
 }
 
 coords = {
@@ -45,16 +45,18 @@ def dfs(start, goal, graph):
 import heapq
 
 def greedy(start, goal, graph):
-    heap = [(manhattan(start), start, [start])]
-    visited = set()
+    heap = [(manhattan(start), 0, start, [start])]
+    visited = {}
     while heap:
-        _, node, path = heapq.heappop(heap)
+        f, g, node, path = heapq.heappop(heap)
         if node == goal:
             return path
-        if node not in visited:
-            visited.add(node)
+        if node not in visited or g < visited[node]:
+            visited[node] = g
             for neighbor in sorted(graph[node]):
-                heapq.heappush(heap, (manhattan(neighbor), neighbor, path + [neighbor]))
+                g_new = g + 1   # cada paso cuesta 1, incluso W
+                f_new = g_new + manhattan(neighbor)
+                heapq.heappush(heap, (f_new, g_new, neighbor, path + [neighbor]))
     return None
 
 def a_star(start, goal, graph):
@@ -74,6 +76,17 @@ def a_star(start, goal, graph):
                 heapq.heappush(heap, (f_new, g_new, neighbor, path + [neighbor]))
     return None
 
-print("DFS:", dfs('I','F',graph))
-print("Greedy:", greedy('I','F',graph))
-print("A*:", a_star('I','F',graph))
+def path_cost(path):
+    cost_map = {'W': 30}  # resto 1
+    total = 0
+    for node in path[1:]:  # no contamos la casilla inicial
+        total += cost_map.get(node, 1)
+    return total
+
+dfs_path = dfs('I','F',graph)
+greedy_path = greedy('I','F',graph)
+astar_path = a_star('I','F',graph)
+
+print("DFS:", dfs_path, "Costo:", path_cost(dfs_path))
+print("Greedy:", greedy_path, "Costo:", path_cost(greedy_path))
+print("A*:", astar_path, "Costo:", path_cost(astar_path))
