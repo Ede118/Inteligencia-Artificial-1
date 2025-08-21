@@ -22,11 +22,11 @@ class Node:
         return hash((self.row, self.col))
 
 def heuristic(node, end_node):
-    """Calcula la heurística de distancia de Manhattan."""
+    """Calcula la heurística de distancia."""
     return abs(node.row - end_node.row) + abs(node.col - end_node.col)
 
 def astar(grid, start, end):
-    """El algoritmo de búsqueda A* corregido."""
+    """El algoritmo de búsqueda A*."""
     start_node = Node(start.row, start.col)
     end_node = Node(end.row, end.col)
 
@@ -134,7 +134,7 @@ class PathfindingGUI:
                 if (row, col) != (self.start.row, self.start.col) and (row, col) != (self.end.row, self.end.col):
                     self.buttons[(row, col)].config(bg="yellow")
         else:
-            messagebox.showinfo("Información", "No se encontró un camino.")
+            messagebox.showinfo("información", "No se encontró un camino.")
 
     def _reset_path_display(self):
         """Reinicia el color de las celdas del camino."""
@@ -144,7 +144,7 @@ class PathfindingGUI:
                     self.buttons[(r, c)].config(bg="white")
 
     def reset_grid(self):
-        """Reinicia la cuadrícula a su estado inicial."""
+        """reinicia la cuadricula a su estado inicial."""
         for r in range(self.rows):
             for c in range(self.cols):
                 self.grid[(r, c)] = 0
