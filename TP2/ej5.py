@@ -17,7 +17,7 @@ graph = {               #definimos los vecinos del grafico
     'F': ['N']            
 }
 
-#asignamos coordenadas a las casillas para poder calcular la distancia Manhatan
+#asignamos coordenadas a las casillas para poder calcular la distancia Manhattan
 coords = {                  
     'A': (0,0), 'B': (1,0),
     'C': (0,1), 'D': (1,1), 'E': (2,1),
@@ -25,11 +25,13 @@ coords = {
     'P': (0,3), 'Q': (1,3), 'R': (2,3), 'T': (3,3), 'F': (4,3)
 }
 
+#calculo de distancia manhattan
 def manhattan(casilla):
     x1, y1 = coords[casilla]
     x2, y2 = coords['F']
     return abs(x1 - x2) + abs(y1 - y2)
 
+#Busqueda Primero en profundidad
 def dfs(start, goal, graph):
     stack = [(start, [start])]
     visited = set()
@@ -45,6 +47,7 @@ def dfs(start, goal, graph):
 
 import heapq
 
+#Busqueda Avara
 def greedy(start, goal, graph):
     heap = [(manhattan(start), 0, start, [start])]
     visited = {}
@@ -55,8 +58,8 @@ def greedy(start, goal, graph):
         if node not in visited or g < visited[node]:
             visited[node] = g
             for neighbor in sorted(graph[node]):
-                g_new = g + 1   # cada paso cuesta 1, incluso W
-                f_new = g_new + manhattan(neighbor)
+                g_new = g + 1   # cada paso cuesta 1, incluso W 
+                f_new = g_new + manhattan(neighbor) #solo tiene en cuenta la distancia más corta hasta el obj
                 heapq.heappush(heap, (f_new, g_new, neighbor, path + [neighbor]))
     return None
 
@@ -72,11 +75,12 @@ def a_star(start, goal, graph):
         if node not in visited or g < visited[node]:
             visited[node] = g
             for neighbor in sorted(graph[node]):
-                g_new = g + cost_map.get(neighbor, 1)
+                g_new = g + cost_map.get(neighbor, 1) #cuenta el costo del camino y la menor distancia hasta el obj
                 f_new = g_new + manhattan(neighbor)
                 heapq.heappush(heap, (f_new, g_new, neighbor, path + [neighbor]))
     return None
 
+#Calculamos los costos de cada camino
 def path_cost(path):
     cost_map = {'W': 30}  # resto 1
     total = 0
