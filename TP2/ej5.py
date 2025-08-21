@@ -1,23 +1,24 @@
-graph = {
+graph = {               #definimos los vecinos del grafico
     'A': ['B', 'C'],
     'B': ['A', 'D'],
-    'C': ['A', 'K'],  # pared hacia D
-    'D': ['B','M'],     #  paredes hacia C y E
-    'E': ['N'],  # pared desde D
+    'C': ['A', 'K'],    
+    'D': ['B','M'],     
+    'E': ['N'],         
     'G': ['I', 'P'],
     'I': ['G', 'Q', 'W'],  
-    'W': ['I', 'K'],    # pared hacia R
+    'W': ['I', 'K'],  
     'K': ['C', 'M', 'T', 'W'],     
     'M': ['D', 'F', 'K', 'N'],
     'N': ['E','M'],
     'P': ['G', 'Q'],
     'Q': ['I', 'P', 'R'],
     'R': ['Q', 'T'],
-    'T': ['K','R'],        # pared hacia F
-    'F': ['N']            # objetivo
+    'T': ['K','R'],        
+    'F': ['N']            
 }
 
-coords = {
+#asignamos coordenadas a las casillas para poder calcular la distancia Manhatan
+coords = {                  
     'A': (0,0), 'B': (1,0),
     'C': (0,1), 'D': (1,1), 'E': (2,1),
     'G': (0,2), 'I': (1,2), 'W': (2,2), 'K': (3,2), 'M': (4,2), 'N': (5,2),
