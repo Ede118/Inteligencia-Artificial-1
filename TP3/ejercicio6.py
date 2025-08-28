@@ -1,4 +1,6 @@
 import numpy as np
+import sys
+sys.stdout.reconfigure(encoding='utf-8')
 
 # --- Datos del Problema ---
 #             Caja: 1    2    3    4    5    6    7    8    9    10
