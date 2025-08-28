@@ -58,7 +58,7 @@ def estimated_value(b, move, ai, hu, rollouts=40):
     for _ in range(rollouts): s += simulate_from_move(b, move, ai, hu)
     return s / rollouts
 
-def Recocido(b, ai, hu, T0=10.0, Tf=0.1, alpha=0.95, L=20, rollouts=40):
+def Recocido(b, ai, hu, T0=0.8, Tf=0.1, alpha=0.75, L=20, rollouts=40):
 
         
     empties = available_moves(b)
