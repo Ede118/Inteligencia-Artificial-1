@@ -6,18 +6,27 @@ import threading
 import time
 
 # ----------------- Lógica del Juego y de la IA (sin cambios) -----------------
-# Este es el "cerebro" del juego y no necesita ser modificado.
 
-def new_board(): return [' '] * 9
-def available_moves(b): return [i for i, c in enumerate(b) if c == ' ']
+def new_board(): 
+    return [' '] * 9
+
+def available_moves(b): 
+    return [i for i, c in enumerate(b) if c == ' ']
+
 def place(b, i, mark): b[i] = mark
+
 def winner(b):
     lines = [(0,1,2),(3,4,5),(6,7,8),(0,3,6),(1,4,7),(2,5,8),(0,4,8),(2,4,6)]
     for i,j,k in lines:
         if b[i] != ' ' and b[i] == b[j] == b[k]: return b[i]
     return None
-def is_draw(b): return winner(b) is None and all(c != ' ' for c in b)
-def copy_board(b): return b[:]
+
+def is_draw(b): 
+    return winner(b) is None and all(c != ' ' for c in b)
+
+def copy_board(b): 
+    return b[:]
+
 def random_policy_move(b, player):
     for i in available_moves(b):
         bb = copy_board(b); place(bb, i, player)
@@ -27,6 +36,7 @@ def random_policy_move(b, player):
         bb = copy_board(b); place(bb, i, opp)
         if winner(bb) == opp: return i
     return random.choice(available_moves(b)) if available_moves(b) else -1
+
 def simulate_from_move(b, move, ai, hu):
     bb = copy_board(b); place(bb, move, ai)
     w = winner(bb)
@@ -42,11 +52,13 @@ def simulate_from_move(b, move, ai, hu):
         if w == hu: return -1
         if is_draw(bb): return 0
         turn = ai if turn == hu else hu
+
 def estimated_value(b, move, ai, hu, rollouts=40):
     s = 0
     for _ in range(rollouts): s += simulate_from_move(b, move, ai, hu)
     return s / rollouts
-def sa_choose_move(b, ai, hu, T0=10.0, Tf=0.1, alpha=0.95, L=20, rollouts=40):
+
+def Recocido(b, ai, hu, T0=10.0, Tf=0.1, alpha=0.95, L=20, rollouts=40):
     empties = available_moves(b)
     for i in empties:
         bb = copy_board(b); place(bb, i, ai)
@@ -156,7 +168,7 @@ class TicTacToePygame:
 
     def ai_move_threaded(self):
         time.sleep(0.5) # Pequeña pausa para que se vea el "pensando..."
-        move = sa_choose_move(self.board, self.ai, self.human)
+        move = Recocido(self.board, self.ai, self.human)
         # Cuando termina, el resultado se manejará en el bucle principal
         pygame.event.post(pygame.event.Event(pygame.USEREVENT, {'move': move}))
 
