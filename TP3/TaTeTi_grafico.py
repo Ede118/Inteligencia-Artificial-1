@@ -59,14 +59,25 @@ def estimated_value(b, move, ai, hu, rollouts=40):
     return s / rollouts
 
 def Recocido(b, ai, hu, T0=10.0, Tf=0.1, alpha=0.95, L=20, rollouts=40):
+
+        
     empties = available_moves(b)
-    for i in empties:
-        bb = copy_board(b); place(bb, i, ai)
-        if winner(bb) == ai: return i
-    for i in empties:
-        bb = copy_board(b); place(bb, i, hu)
-        if winner(bb) == hu: return i
+
+    # Si hay jugada ganadora inmediata o bloqueo, sé pragmático:
+    
+    #for i in empties:
+    #    bb = copy_board(b)
+    #    place(bb, i, ai)
+    #    if winner(bb) == ai:
+    #        return i
+    #for i in empties:
+    #    bb = copy_board(b)
+    #    place(bb, i, hu)
+    #    if winner(bb) == hu:
+    #        return i
+    
     if not empties: return -1
+    
     current = random.choice(empties)
     best = current
     cur_val = estimated_value(b, current, ai, hu, rollouts=rollouts)
