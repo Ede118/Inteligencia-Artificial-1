@@ -83,7 +83,7 @@ def estimated_value(b, move, ai, hu, rollouts=40):
 
 # ----------------- Recocido Simulado para elegir jugada -----------------
 
-def sa_choose_move(b, ai, hu, T0=5.0, Tf=0.1, alpha=0.95, L=20, rollouts=40):
+def Recocido(b, ai, hu, T0=5.0, Tf=0.1, alpha=0.95, L=20, rollouts=40):
     """Devuelve una casilla usando Simulated Annealing.
        - T0: temperatura inicial
        - Tf: temperatura final
@@ -152,7 +152,7 @@ def play_human_vs_sa(T0=5.0, Tf=0.1, alpha=0.95, L=20, rollouts=40):
             place(b, i, human)
         else:
             print(f"IA pensando con SA (T0={T0})...")
-            i = sa_choose_move(b, ai, human, T0=T0, Tf=Tf, alpha=alpha, L=L, rollouts=rollouts)
+            i = Recocido(b, ai, human, T0=T0, Tf=Tf, alpha=alpha, L=L, rollouts=rollouts)
             place(b, i, ai)
             print(f"IA juega en {i+1}.")
         print_board(b)
@@ -166,7 +166,7 @@ def main():
     try:
         T0 = float(input("T0 (ej. 0.2, 1, 5, 10): ").strip() or "5")
     except:
-        T0 = 5.0
+        T0 = 0.8
     Tf = 0.1
     alpha = 0.95
     L = 20
