@@ -102,7 +102,7 @@ peso_final = np.sum(mejor_individuo_global * pesos)
 cajas_seleccionadas = np.where(mejor_individuo_global == 1)[0] + 1
 
 print("\n--- Mejor Solución Encontrada ---")
-print(f"📦 Cajas a cargar: {list(cajas_seleccionadas)}")
+print(f"📦 Cajas a cargar: {', '.join(map(str, cajas_seleccionadas))}")
 print(f"⚖️ Peso Total: {peso_final} kg (Límite: {capacidad_maxima} kg)")
 print(f"💲 Precio Total: ${precio_final}")
 print(f"🧬 Individuo (genotipo): {mejor_individuo_global}")
