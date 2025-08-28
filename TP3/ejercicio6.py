@@ -12,7 +12,7 @@ n_cajas = 10
 # --- Parámetros del Algoritmo Genético ---
 tamano_poblacion = 20       # Un número par
 tasa_mutacion = 0.05        # Probabilidad de que un gen (caja) mute
-num_generaciones = 100      # Mecanismo de detención
+num_generaciones = 200      # Mecanismo de detención
 
 # --- 6.2 Generación de la Población Inicial ---
 def crear_poblacion_inicial(tamano, n_items, pesos_items, capacidad):
