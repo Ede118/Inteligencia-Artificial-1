@@ -166,7 +166,7 @@ def main():
     try:
         T0 = float(input("T0 (ej. 0.2, 1, 5, 10): ").strip() or "5")
     except:
-        T0 = 5.0
+        T0 = 0.8
     Tf = 0.1
     alpha = 0.95
     L = 20
