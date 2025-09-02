@@ -1,3 +1,4 @@
+#El ejercicio no pide hacer esto pero quisimos hacerlo para divertirnos
 import pygame
 import sys
 import time
