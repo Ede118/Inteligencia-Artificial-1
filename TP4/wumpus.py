@@ -199,7 +199,7 @@ def generar_percepciones(mundo_objetos):
 mundo_objetos = {
     'wumpus': (1, 0),
     'pozos': [(3, 2), (1, 2), (0, 3)],
-    'oro': (1, 1)
+    'oro': (0, 1)
 }
 
 mundo_objetos = generar_percepciones(mundo_objetos)
