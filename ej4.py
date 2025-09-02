@@ -26,7 +26,7 @@ GRIS_OSCURO = (50, 50, 50) # Agente muerto
 
 # Configuración de la pantalla
 pantalla = pygame.display.set_mode((ANCHO_PANTALLA, ALTO_PANTALLA))
-pygame.display.set_caption("Agente IA en el Mundo de Wumpus (Un Solo Pozo)")
+pygame.display.set_caption("Agente IA en el Mundo de Wumpus (Disparo al Wumpus)")
 reloj = pygame.time.Clock()
 
 # Carga de fuente para el texto
@@ -45,6 +45,7 @@ class Agente:
         self.ruta_visitada = [(3, 0)]
         self.posibles_pozos = []
         self.posibles_wumpus = []
+        self.disparo_realizado = False
 
         self.es_segura[self.fila][self.columna] = True
         
@@ -103,11 +104,13 @@ class Agente:
                     self.posibles_wumpus.remove((r, c))
         
         # LÓGICA DE DISPARO
-        if len(self.posibles_wumpus) == 1 and self.flechas > 0:
+        if len(self.posibles_wumpus) == 1 and self.flechas > 0 and not self.disparo_realizado:
             wumpus_loc = self.posibles_wumpus[0]
-            if wumpus_loc in self.obtener_vecinos(self.fila, self.columna):
+            # Si el wumpus está en un vecino no visitado, disparamos
+            if not self.conocido[wumpus_loc[0]][wumpus_loc[1]]:
                 mundo_objetos['wumpus_muerto'] = True
                 self.flechas = 0
+                self.disparo_realizado = True
                 print("¡El agente ha disparado y matado al Wumpus! 🏹")
                 self.posibles_wumpus = []
                 self.es_segura[wumpus_loc[0]][wumpus_loc[1]] = True
@@ -193,9 +196,9 @@ def generar_percepciones(mundo_objetos):
 
 # **Configuración de un mundo solucionable**
 mundo_objetos = {
-    'wumpus': (1, 3),
-    'pozos': [(1, 0)],
-    'oro': (0, 3)
+    'wumpus': (1, 0),
+    'pozos': [(3, 2), (1, 2), (0, 3)],
+    'oro': (1, 1)
 }
 
 mundo_objetos = generar_percepciones(mundo_objetos)
