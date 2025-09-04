@@ -24,6 +24,15 @@ def resolver_clausulas(c1, c2):
             return nueva_clausula
     return None
 
+def formato_clausula(clausula):
+    """
+    Función auxiliar para formatear una cláusula para una salida legible.
+    Convierte un frozenset a una cadena de texto.
+    """
+    if not clausula:
+        return "□ (Cláusula Vacía)"
+    return " v ".join(sorted(list(clausula)))
+
 def motor_inconsistencia_resolucion(clausulas):
     """
     Motor de inferencia que detecta inconsistencias usando resolución.
@@ -36,6 +45,14 @@ def motor_inconsistencia_resolucion(clausulas):
     """
     clausulas_conocidas = set(clausulas)
     
+    print("Analizando la base de conocimiento para detectar inconsistencia...")
+    
+    # --- Nuevo: Imprimir la base de conocimiento inicial ---
+    print("\nBase de conocimiento inicial:")
+    for i, c in enumerate(clausulas):
+        print(f"  Cláusula {i+1}: ({formato_clausula(c)})")
+    print("-" * 30)
+
     while True:
         nuevas_clausulas = set()
         pares_clausulas = itertools.combinations(clausulas_conocidas, 2)
@@ -44,17 +61,15 @@ def motor_inconsistencia_resolucion(clausulas):
             resultado_resolucion = resolver_clausulas(c1, c2)
             
             if resultado_resolucion is not None:
-                print(f"Resolviendo {c1} y {c2} -> {resultado_resolucion}")
+                print(f"Resolviendo ({formato_clausula(c1)}) y ({formato_clausula(c2)}) -> ({formato_clausula(resultado_resolucion)})")
                 
-                if not resultado_resolucion:  # La cláusula vacía {}
+                if not resultado_resolucion: 
                     print("\n¡Inconsistencia detectada! Se ha derivado la cláusula vacía.")
                     return True
                 
-                # Si la nueva cláusula no es trivial y no se ha visto antes.
                 if resultado_resolucion not in clausulas_conocidas:
                     nuevas_clausulas.add(resultado_resolucion)
         
-        # Si no se generan nuevas cláusulas, no hay contradicción.
         if not nuevas_clausulas:
             print("\nNo se encontraron nuevas cláusulas. El conjunto de proposiciones es consistente.")
             return False
@@ -62,19 +77,6 @@ def motor_inconsistencia_resolucion(clausulas):
         clausulas_conocidas.update(nuevas_clausulas)
 
 # --- Prueba con un conjunto inconsistente ---
-# Para probar la inconsistencia, añadiremos una regla que contradice
-# las premisas. Por ejemplo, sabemos que 'c' es True, así que si agregamos
-# la negación de 'c', causaremos una contradicción.
-
-# Base de conocimiento del ejercicio 3 convertida a FNC:
-# R1: b AND c -> a  --> ¬b v ¬c v a
-# R2: d AND e -> b  --> ¬d v ¬e v b
-# R3: g AND e -> b  --> ¬g v ¬e v b
-# R4: e -> c      --> ¬e v c
-# R5: d           --> d
-# R6: e           --> e
-
-# Convertimos las proposiciones a un formato de conjunto.
 clausulas_base = [
     frozenset(['¬b', '¬c', 'a']),
     frozenset(['¬d', '¬e', 'b']),
@@ -84,18 +86,13 @@ clausulas_base = [
     frozenset(['e'])
 ]
 
-# Añadimos una proposición que haga el conjunto inconsistente.
-# Sabemos que de 'e' (R6) y '¬e v c' (R4) se deriva 'c'.
-# Por lo tanto, si añadimos '¬c', el conjunto será inconsistente.
+# Añadimos la proposición que hace que el conjunto sea inconsistente.
 clausulas_inconsistentes = clausulas_base + [frozenset(['¬c'])]
 
 if __name__ == "__main__":
-    # Ejecutar el motor
-    print("Analizando la base de conocimiento para detectar inconsistencia...")
+    print("--- Resultado ---")
     es_inconsistente = motor_inconsistencia_resolucion(clausulas_inconsistentes)
-
-    print("\n--- Resultado ---")
     if es_inconsistente:
-        print("El conjunto de proposiciones es inconsistente. ¡Prueba exitosa! ✅")
+        print("\nEl conjunto de proposiciones es inconsistente. ¡Prueba exitosa! ✅")
     else:
-        print("El conjunto de proposiciones es consistente.")
+        print("\nEl conjunto de proposiciones es consistente.")
