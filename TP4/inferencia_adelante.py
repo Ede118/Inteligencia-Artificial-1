@@ -1,4 +1,6 @@
-def forward_chaining(reglas, hechos_iniciales, objetivo):
+import os
+
+def forward_chaining(SetReglas, SetVerdades, Objetive, verbose=True):
     """
     Implementa un motor de inferencia con encadenamiento hacia adelante.
 
@@ -11,28 +13,63 @@ def forward_chaining(reglas, hechos_iniciales, objetivo):
     Returns:
         bool: True si el objetivo se puede derivar, False en caso contrario.
     """
-    hechos_conocidos = set(hechos_iniciales)
+
+    if SetReglas is None or SetVerdades is None or Objetive is None:
+        raise ValueError("SetReglas, SetVerdades y Objetive no pueden ser None.")
+    elif not isinstance(SetReglas, list) or not all(isinstance(r, tuple) and len(r) == 2 and isinstance(r[0], frozenset) and isinstance(r[1], str) for r in SetReglas):
+        raise ValueError("SetReglas debe ser una lista de tuplas (premisa, conclusion) donde la premisa es un frozenset y la conclusion es un string.")
+    elif not isinstance(SetVerdades, set) or not all(isinstance(h, str) for h in SetVerdades):
+        raise ValueError("SetVerdades debe ser un conjunto de strings.")
+    elif not isinstance(Objetive, str):
+        raise ValueError("Objetive debe ser un string.")
     
+
+    # Por si el objetivo ya es un hecho
+    if Objetive in SetVerdades:
+        if verbose: print(f"Objetivo '{Objetive}' ya estaba en los hechos.")
+        return True
+    
+    nombre_por_premisa = {
+        frozenset({'b','c'}): 'R1',
+        frozenset({'d','e'}): 'R2',
+        frozenset({'g','e'}): 'R3',
+        frozenset({'e'}):     'R4',
+        frozenset({'a','g'}): 'R7',
+    }
+    
+    nuevos_hechos_derivados = True
+
     # Bucle que se ejecuta mientras se puedan derivar nuevos hechos.
-    while True:
+    while nuevos_hechos_derivados:
+
+        # Cuando se completa el ciclo sin derivar nuevos hechos, se detiene.
         nuevos_hechos_derivados = False
         
         # Iterar a través de cada regla en la base de conocimiento.
-        for premisa, conclusion in reglas:
+        for premisa, conclusion in SetReglas:
+
             # Comprobar si todas las proposiciones en la premisa son hechos conocidos.
-            if premisa.issubset(hechos_conocidos):
-                # Si la conclusión no es un hecho conocido, la añadimos.
-                if conclusion not in hechos_conocidos:
-                    hechos_conocidos.add(conclusion)
-                    nuevos_hechos_derivados = True
-                    print(f"Se ha inferido '{conclusion}' a partir de '{premisa}'")
-        
-        # Si no se ha derivado ningún nuevo hecho, el bucle se detiene.
-        if not nuevos_hechos_derivados:
-            break
+            # Si la conclusión no es un hecho conocido, la añadimos.
+            
+            if premisa.issubset(SetVerdades) and conclusion not in SetVerdades:
+                    
+                    SetVerdades.add(conclusion)
+                    nuevos_hechos_derivados = True 
+
+                    regla = nombre_por_premisa.get(premisa, '?')
+
+                    prem_str = ' ∧ '.join(sorted(premisa))
+                    
+                    print(f" >>Se ha inferido '{conclusion}' a partir de '{regla}'")
+                    print(f"{regla}: {prem_str} ⟹ {conclusion}\n")
+
+                    if conclusion == Objetive:
+                        if verbose: print(f"Objetivo '{Objetive}' alcanzado.")
+                        nuevos_hechos_derivados = False
+                        return True
             
     # Comprobar si el objetivo está en el conjunto de hechos conocidos.
-    return objetivo in hechos_conocidos
+    return Objetive in SetVerdades
 
 # --- Prueba con las proposiciones del ejercicio 3 ---
 
@@ -61,13 +98,33 @@ hechos_ejercicio3 = {'d', 'e'}
 # 3. Definir el objetivo
 objetivo_a = 'a'
 
-# 4. Ejecutar el motor de inferencia
-print("Iniciando motor de inferencia con encadenamiento hacia adelante...")
-resultado = forward_chaining(reglas_ejercicio3, hechos_ejercicio3, objetivo_a)
 
-# 5. Imprimir el resultado
-print("\n--- Resultado ---")
-if resultado:
-    print(f"Éxito: Se ha demostrado que '{objetivo_a}' es verdadero.")
-else:
-    print(f"Fallo: No se pudo demostrar que '{objetivo_a}' es verdadero.")
+
+if __name__ == "__main__":
+
+    clear = lambda: os.system('cls' if os.name == 'nt' else 'clear')
+    clear()
+
+    # 4. Ejecutar el motor de inferencia
+    print("--- Base de Conocimiento ---")
+
+    for s in ["R1: b ∧ c → a",
+          "R2: d ∧ e → b",
+          "R3: g ∧ e → b",
+          "R4: e → c",
+          "R5: d",
+          "R6: e",
+          "R7: a ∧ g → f"]:
+        print(s)
+
+    print("\nIniciando motor de inferencia con encadenamiento hacia adelante...\n")
+    resultado = forward_chaining(reglas_ejercicio3, hechos_ejercicio3, objetivo_a)
+
+    # 5. Imprimir el resultado
+    print("\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    print("| \t\t\t Resultado \t\t\t      |")
+    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    if resultado:
+        print(f"\n >>Éxito: Se ha demostrado que '{objetivo_a}' es verdadero.")
+    else:
+        print(f"\n >>Fallo: No se pudo demostrar que '{objetivo_a}' es verdadero.")
