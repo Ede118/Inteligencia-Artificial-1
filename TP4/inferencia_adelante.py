@@ -1,3 +1,5 @@
+import os
+
 def forward_chaining(reglas, hechos_iniciales, objetivo, verbose=True):
     """
     Implementa un motor de inferencia con encadenamiento hacia adelante.
@@ -90,6 +92,10 @@ objetivo_a = 'a'
 
 
 if __name__ == "__main__":
+
+    clear = lambda: os.system('cls' if os.name == 'nt' else 'clear')
+    clear()
+
     # 4. Ejecutar el motor de inferencia
     print("--- Base de Conocimiento ---")
 
