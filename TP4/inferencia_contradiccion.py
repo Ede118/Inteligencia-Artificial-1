@@ -89,12 +89,13 @@ clausulas_base = [
 # Por lo tanto, si añadimos '¬c', el conjunto será inconsistente.
 clausulas_inconsistentes = clausulas_base + [frozenset(['¬c'])]
 
-# Ejecutar el motor
-print("Analizando la base de conocimiento para detectar inconsistencia...")
-es_inconsistente = motor_inconsistencia_resolucion(clausulas_inconsistentes)
+if __name__ == "__main__":
+    # Ejecutar el motor
+    print("Analizando la base de conocimiento para detectar inconsistencia...")
+    es_inconsistente = motor_inconsistencia_resolucion(clausulas_inconsistentes)
 
-print("\n--- Resultado ---")
-if es_inconsistente:
-    print("El conjunto de proposiciones es inconsistente. ¡Prueba exitosa! ✅")
-else:
-    print("El conjunto de proposiciones es consistente.")
+    print("\n--- Resultado ---")
+    if es_inconsistente:
+        print("El conjunto de proposiciones es inconsistente. ¡Prueba exitosa! ✅")
+    else:
+        print("El conjunto de proposiciones es consistente.")
