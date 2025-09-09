@@ -21,36 +21,46 @@ p_piloto_dado_temp = {
 }
 
 def calcular_prob_conjunta(averia, temp, piloto):
-    """Calcula la probabilidad conjunta P(Averia, Temperatura, Piloto)."""
+    """
+    Calcula la probabilidad conjunta P(Averia, Temperatura, Piloto)
+    usando la regla de la cadena: P(P|T) * P(T|A) * P(A).
+    """
     return (p_piloto_dado_temp[temp][piloto] *
             p_temp_dado_averia[averia][temp] *
             p_averia[averia])
 
-# --- Lógica de Cálculo y Presentación ---
+# Problema 3.1: P(Avería=mecanica | Piloto=encendido) ---
+print("## Resultado 3.1: Inferencia por Enumeración")
+print("### P(Avería Mecánica | Piloto Encendido)")
 
-print("## Análisis de la Red Bayesiana del Motor")
-print("-------------------------------------------------------------------------------------------------------------")
-
-# --- 3.1: Cálculo de P(Averia=mecanica | Piloto=encendido) ---
+# Numerador: P(Avería=mecanica, Piloto=encendido)
+# Se suman las probabilidades conjuntas de todas las temperaturas para la avería mecánica
 num_3_1 = sum(calcular_prob_conjunta('mecanica', temp, 'encendido')
             for temp in ['elevada', 'reducida', 'normal'])
+
+# Denominador: P(Piloto=encendido) (Probabilidad total)
+# Se suman las probabilidades conjuntas de todas las averías y temperaturas
 den_3_1 = sum(calcular_prob_conjunta(averia, temp, 'encendido')
             for averia in ['electrica', 'mecanica', 'no_averia']
             for temp in ['elevada', 'reducida', 'normal'])
 
 prob_3_1 = num_3_1 / den_3_1
-
-print("### 📊 Resultado 3.1: Probabilidad de Avería Mecánica dado que el Piloto está Encendido")
 print(f"Probabilidad Calculada: **{prob_3_1:.10f}**")
-print("---------------------------------------------------------------------------------------------------------")
+print(f"---------------------------------------------------------------------------------------------------")
 
-# --- 3.2: Cálculo de P(Averia=mecanica | Piloto=encendido, Temperatura=elevada) ---
+# Problema 3.2: P(Avería=mecanica | Piloto=encendido, Temperatura=elevada) ---
+print("\n## Resultado 3.2: Inferencia por Enumeración")
+print("### P(Avería Mecánica | Piloto Encendido, Temperatura Elevada)")
+
+# Numerador: P(Avería=mecanica, Temperatura=elevada, Piloto=encendido)
+# No es necesario sumar porque la temperatura ya es un evento observado
 num_3_2 = calcular_prob_conjunta('mecanica', 'elevada', 'encendido')
+
+# Denominador: P(Temperatura=elevada, Piloto=encendido)
+# Se suman las probabilidades conjuntas para cada tipo de avería
 den_3_2 = sum(calcular_prob_conjunta(averia, 'elevada', 'encendido')
             for averia in ['electrica', 'mecanica', 'no_averia'])
 
 prob_3_2 = num_3_2 / den_3_2
-
-print("### 💡 Resultado 3.2: Probabilidad de Avería Mecánica dado que el Piloto está Encendido y la Temperatura es Elevada")
 print(f"Probabilidad Calculada: **{prob_3_2:.10f}**")
-print("---------------------------------------------------------------------------------------------------------")
+print(f"---------------------------------------------------------------------------------------------------")
