@@ -1,5 +1,10 @@
 # -*- coding: utf-8 -*-
 import math
+from pathlib import Path
+
+import matplotlib
+
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 # ---------------------------
@@ -30,6 +35,9 @@ Ks = [
 
 T_MAX = 10
 T = list(range(0, T_MAX + 1))
+
+OUTPUT_DIR = Path(__file__).resolve().parent / "Imagenes"
+OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 def falling_ratio(K, N, t):
     if t == 0:
@@ -74,7 +82,7 @@ plt.title("Verosimilitud (hipergeométrica, sin reemplazo)")
 plt.grid(True, which="both")
 plt.legend()
 plt.tight_layout()
-plt.savefig("./Imagenes/verosimilitud_semilog_HG.png", dpi=150)
+plt.savefig(OUTPUT_DIR / "verosimilitud_semilog_HG.png", dpi=150)
 
 # 2) Posteriores (lineal)
 plt.figure()
@@ -91,7 +99,7 @@ plt.title("Evolución de las probabilidades a posteriori (lineal)")
 plt.grid(True)
 plt.legend(loc="best")
 plt.tight_layout()
-plt.savefig("/mnt/data/posteriores_lineal_HG.png", dpi=150)
+plt.savefig(OUTPUT_DIR / "posteriores_lineal_HG.png", dpi=150)
 
 t_final = T_MAX
 map_idx = max(range(5), key=lambda i: U[t_final][i])
